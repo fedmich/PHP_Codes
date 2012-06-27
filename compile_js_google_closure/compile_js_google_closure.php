@@ -1,15 +1,18 @@
 <?php
 
 /*
-  compile_js_google_closure 0.1
+  compile_js_google_closure 0.2
  */
 
-function compile_js_google_closure($file) {
-	$dest = str_replace('.js', '.min.js', $file);
+function compile_js_google_closure($file, $dest = '') {
+	if (!$dest) {
+		$dest = str_replace('.js', '.min.js', $file);
+	}
 	if (file_exists($dest)) {
 		//already generated before
 		return true;
 	}
+
 	if (!file_exists($file)) {
 		return false;
 	}
