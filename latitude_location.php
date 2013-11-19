@@ -44,9 +44,24 @@
 				}
 			}
 			
-			if(! $content ){
-				echo " = no content received... <br/>";
-				break;
+			if(! $loc_cc ){
+				// Try the alternate countrySubdivision
+				// Find closest country
+				// Can't find countryCode of this one -->	http://ws.geonames.org/countryCode?lat=-34.0595&lng=151.082
+				
+				$url = "http://ws.geonames.org/countrySubdivisionJSON?maxRows=10&radius=40&lat=$lat&lng=$lng";
+				$content = file_get_contents ($url);
+				if($content){
+					$ojson = json_decode( $content );
+					if(! empty($ojson->countryCode)){
+						$loc_cc = $ojson->countryCode;
+					}
+				}
+				
+				if(! $content ){
+					echo " = no content received... <br/>";
+					break;
+				}
 			}
 			
 			if( $loc_cc ) {
